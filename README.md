@@ -14,17 +14,25 @@ C++ doesn't let you do this, but with the advent of lambdas and other
 functional magic, I feel like it really should let you. As such, I'm going to
 attempt to bring these to C++.
 
-Restrictions include not being able to use the if and for keywords -- these are
-part of core C++ and attempting to use them will cause compile errors, severe
-headaches, the zombie apocalypse and all sorts of other issues. Instead, for
-now, I'm going to use take, with, in, and where.
-
 In other words, the C++ equivalent would be:
 
     auto l1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    auto l2 = take x with x in l1 where x % 2 == 0;```
+    listee::expression x;
+    auto l2 = x with x in l1 when x % 2 == 0;```
 
 Isn't this cool!
+
+Eventually, I expect all of the following to work:
+    
+    auto l1 = {1, 3, 5, 7, 9};
+    auto l2 = {2, 4, 6, 8, 10};
+    listee::expression x, y;
+    auto l3 = x*y with x in l1 with y in l2 when x + 3*y <= 100;
+
+    auto l4 = x*y with x in l1 with y in l2 when x < 4 and y < 10;
+
+    auto l5 = x / y with x in l3 with y in l4 when x < 3 and x % y > 2;
+
 
 ## Features ##
 The obvious feature is the wonderful new syntax you're able to use, simply by
@@ -44,9 +52,17 @@ adding ```#include <listee>``` to your code. However, on top of this:
   compile. And now you can.
 
 ### Limitations ###
-Obviously, as far as emulating python syntax goes, this is pretty terrible.
-However, unfortunately, we simply can't; for and if are reserved keywords in
-C++ and there's no way I can override them without screwing up the language (or
-the rest of your code, more importantly). As such, we get the slightly more
-verbose syntax as above.
+Obviously, as far as emulating python syntax goes, our hands are tied; we
+simply can't use 'for' and 'if' like python does, as these are key language
+constructs which we're not allowed to abuse. This forces us to use 'with',
+'in' and 'when' rather than 'for', 'in' and 'if' (though hey, I like it; it's
+the C++ touch!).
 
+Further, unfortunately, the variables you use in your expression have to be
+predeclared. I've puzzled over this for a few hours (and enlisted the help of
+many on StackOverflow) but have come up with no solution; feel free to contact
+me if you have an idea.
+
+Finally, it also means your program can't use the variables / names 'with',
+'in' and 'when'. These are declared as ```#define``` macros, so using them in
+your program will mean Bad Things happen.
