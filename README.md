@@ -18,7 +18,7 @@ In other words, the C++ equivalent would be:
 
     auto l1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     listee::expression x;
-    auto l2 = x with x in l1 when x % 2 == 0;```
+    auto l2 = x with x in l1 when x % 2 == 0;
 
 Isn't this cool!
 
